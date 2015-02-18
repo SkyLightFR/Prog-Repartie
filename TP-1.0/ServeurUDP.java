@@ -15,16 +15,19 @@ public class ServeurUDP {
 	}
 
 	void go() throws IOException {
-		DatagramPacket dgPacket = new DatagramPacket(new byte[0], 0);
-		String str;
+		
+		byte[] receiveData = new byte[1024];
 
 		while (true) {
+			String str;
+			DatagramPacket dgPacket = new DatagramPacket(receiveData, receiveData.length);
 			dgSocket.receive(dgPacket);
 			System.out.println("Datagram received from " + dgPacket.getSocketAddress());
 
 			dgPacket.setSocketAddress(dgPacket.getSocketAddress());
-			str = new java.util.Date().toString() + "\n";
+			str = new String(dgPacket.getData());
 			byte[] bufDate = str.getBytes();
+			System.out.println(str);
 			dgPacket.setData(bufDate, 0, bufDate.length);
 
 			dgSocket.send(dgPacket);
@@ -32,7 +35,7 @@ public class ServeurUDP {
 	}
 
 	public static void main(String[] args) throws IOException {
-		final int DEFAULT_PORT = 9876;
+		final int DEFAULT_PORT = 8085;
 		new ServeurUDP( args.length == 0 ? DEFAULT_PORT : Integer.parseInt(args[0]) ).go();
 	}
 }

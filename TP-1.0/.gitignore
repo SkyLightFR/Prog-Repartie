@@ -1,2 +1,5 @@
 /ServeurUDP.class
 /IP_Adress.class
+/ClientUDP.class
+/ClientEcho.class
+/MultiplyEcho.class
